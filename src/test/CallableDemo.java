@@ -58,18 +58,29 @@ class TaskWithResult implements Callable<Respuesta>{
                  System.out.println ("el método call () se llama automáticamente !!!" + Thread.currentThread ().getName());   
                  // El resultado devuelto se obtendrá por el método get de Future  
                  //El método 
-//                 return "call () se llama automáticamente y el resultado que devuelve la tarea es:" + id + "" + Thread.currentThread ().getName();   
-                 return new Respuesta(this.id, "va");
+//                 return "call () se llama automáticamente y el resultado que devuelve la tarea es:" + id + "" + Thread.currentThread ().getName(); 
+               //se bloque el hilo un tiempo aleatorio
+                int time = (int)(Math.random()*400+100);
+         		try {
+//         			time = (int)(Math.random()*400+100); 
+         			System.out.println(time);
+         			Thread.sleep(time);
+         		} catch (InterruptedException e) {
+         			System.out.println(e.getMessage());
+         		}
+                 return new Respuesta(this.id, "va", time);
     }   
 }
 
 class Respuesta {
 	private int id;
 	private String str;
+	private int time;
 	
-	public Respuesta(int argId, String argStr) {
+	public Respuesta(int argId, String argStr, int argTime) {
 		this.setId(argId);
 		this.setStr(argStr);
+		this.setTime(argTime);
 	}
 
 	public int getId() {
@@ -88,9 +99,19 @@ class Respuesta {
 		this.str = str;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Respuesta [id=" + id + ", str=" + str + "]";
+		return "Respuesta [id=" + id + ", str=" + str + ", time=" + time + "]";
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 	
 	
